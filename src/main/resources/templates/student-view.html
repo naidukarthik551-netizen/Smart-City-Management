@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${student.name} + ' | City Registry'">Student | City Registry</title>
+    <link rel="stylesheet" th:href="@{/css/students.css}">
+</head>
+<body>
+<header class="topbar">
+    <a class="brand" th:href="@{/students}"><span class="brand-mark">C</span> City Registry</a>
+    <span class="topbar-label">EDUCATION / RECORDS</span>
+</header>
+
+<main class="page-shell form-shell">
+    <a class="back-link" th:href="@{/students}">← Back to students</a>
+    <div class="page-heading detail-heading">
+        <div>
+            <p class="eyebrow">STUDENT RECORD / <span th:text="${student.studentId}"></span></p>
+            <h1 th:text="${student.name}"></h1>
+        </div>
+        <a class="button button-primary" th:href="@{/students/{id}/edit(id=${student.studentId})}">Edit record</a>
+    </div>
+
+    <p class="notice" role="status" th:if="${notice}" th:text="${notice}"></p>
+
+    <section class="detail-list" aria-label="Student details">
+        <div class="detail-row">
+            <span>Student ID</span>
+            <strong th:text="${student.studentId}"></strong>
+        </div>
+        <div class="detail-row">
+            <span>Age</span>
+            <strong th:text="${student.age}"></strong>
+        </div>
+        <div class="detail-row">
+            <span>Email address</span>
+            <a th:href="'mailto:' + ${student.email}" th:text="${student.email}"></a>
+        </div>
+    </section>
+
+    <form class="delete-form" th:action="@{/students/{id}/delete(id=${student.studentId})}" method="post"
+          onsubmit="return confirm('Delete this student record?')">
+        <button class="text-action danger-action" type="submit">Delete student</button>
+    </form>
+</main>
+</body>
+</html>

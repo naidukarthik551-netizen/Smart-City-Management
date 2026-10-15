@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${isNew ? 'Add student' : 'Edit student'} + ' | City Registry'">Student | City Registry</title>
+    <link rel="stylesheet" th:href="@{/css/students.css}">
+</head>
+<body>
+<header class="topbar">
+    <a class="brand" th:href="@{/students}"><span class="brand-mark">C</span> City Registry</a>
+    <span class="topbar-label">EDUCATION / RECORDS</span>
+</header>
+
+<main class="page-shell form-shell">
+    <a class="back-link" th:href="@{/students}">← Back to students</a>
+    <div class="page-heading compact-heading">
+        <div>
+            <p class="eyebrow" th:text="${isNew ? 'NEW RECORD' : 'RECORD ' + student.studentId}">STUDENT RECORD</p>
+            <h1 th:text="${isNew ? 'Add student' : 'Edit student'}">Student</h1>
+        </div>
+    </div>
+
+    <form class="student-form" th:object="${student}"
+          th:action="${isNew ? '/students' : '/students/' + student.studentId}" method="post">
+        <div class="field-grid">
+            <label class="field" th:if="${isNew}">
+                <span>Student ID</span>
+                <input type="number" th:field="*{studentId}" min="1" required autofocus>
+            </label>
+            <div class="field readonly-field" th:unless="${isNew}">
+                <span>Student ID</span>
+                <input type="hidden" th:field="*{studentId}">
+                <output th:text="${student.studentId}"></output>
+            </div>
+            <label class="field">
+                <span>Full name</span>
+                <input type="text" th:field="*{name}" maxlength="100" autocomplete="name" required autofocus="${!isNew}">
+            </label>
+            <label class="field">
+                <span>Age</span>
+                <input type="number" th:field="*{age}" min="0" max="150" required>
+            </label>
+            <label class="field field-wide">
+                <span>Email address</span>
+                <input type="email" th:field="*{email}" maxlength="254" autocomplete="email" required>
+            </label>
+        </div>
+        <div class="form-actions">
+            <a class="button button-quiet" th:href="@{/students}">Cancel</a>
+            <button class="button button-primary" type="submit" th:text="${isNew ? 'Save student' : 'Save changes'}">Save</button>
+        </div>
+    </form>
+</main>
+</body>
+</html>
